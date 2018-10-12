@@ -1,0 +1,16 @@
+[Unit]
+Description=link-dicom-archive.service
+
+[Service]
+WorkingDirectory=/data/ois/site/backend/dicom/archive
+ExecStart=/usr/local/java/bin/java -jar linkdicom-archive-boot.jar --spring.profiles.active=local
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

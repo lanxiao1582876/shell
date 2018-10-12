@@ -1,0 +1,17 @@
+[Unit]
+Description=link-dicom-api.service
+
+[Service]
+#Environment="--spring.config.location=/data/ois/site/backend/dicom/api/application.properties --spring.profiles.active=local"
+WorkingDirectory=/data/ois/site/backend/dicom/api
+ExecStart=/usr/local/java/bin/java -jar linkdicom-api-boot.jar --spring.profiles.active=local
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

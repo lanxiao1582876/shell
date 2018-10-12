@@ -1,0 +1,16 @@
+[Unit]
+Description=link-linkone.service
+
+[Service]
+WorkingDirectory=/data/ois/site/backend/linkone
+ExecStart=/usr/local/java/bin/java -jar linkone.jar
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

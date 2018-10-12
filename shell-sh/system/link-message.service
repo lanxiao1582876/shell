@@ -1,0 +1,16 @@
+[Unit]
+Description=link-message.service
+
+[Service]
+WorkingDirectory=/data/ois/site/backend/message
+ExecStart=/usr/local/java/bin/java -jar linkingmed-messageService.jar --spring.profiles.active=local
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,2 @@
+0 2 * * * /bin/bash /data/shell-sh/cron/dbfullbak.sh
+0 1 * * * /bin/bash /data/shell-sh/cron/remove_mysqldata.sh

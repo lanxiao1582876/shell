@@ -1,0 +1,17 @@
+[Unit]
+Description=link-dicom-dcmsender.service
+
+[Service]
+#Environment="--spring.config.location=/data/ois/site/backend/dicom/dcmsender/application.properties --spring.profiles.active=local"
+WorkingDirectory=/data/ois/site/backend/dicom/dcmsender
+ExecStart=/usr/local/java/bin/java -jar linkdicom-dcmsender-boot.jar 
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+
