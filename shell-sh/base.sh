@@ -1,5 +1,5 @@
 #!/bin/bash
-#安装k8s的时候需要关闭或开启的配置 
+#安装k8s的时候需要的配置 
 
 #1 limit
 sed -i '$i * hard  nofile   65536' /etc/security/limits.conf
