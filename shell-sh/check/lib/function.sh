@@ -53,18 +53,136 @@ function install_mysql() {
 
 function install_docker() {
   info "install docker"
-  /bin/sh /data/base_ev/docker-install/docker-install.sh
-  /bin/sh /data/base_ev/docker-install/docker-load-image.sh
+  yum   install  docker-ce -y
+  DOCKER_CONF=/data/base_ev/docker-install/docker.service
+  
+  info "copy docker conf"
+  mkdir -p /data/docker
+  if [[ -f ${DOCKER_CONF} ]];then
+      cp -f /data/base_ev/docker-install/docker.service  /usr/lib/systemd/system/docker.service
+      systemctl daemon-reload
+      systemctl restart docker
+      systemctl enable docker
+      docker --version
+  else
+      err "${DOCKER_CONF} is not exits"
+  fi
+  NVIDIA_DOCKER_CONF=/data/base_ev/docker-install/daemon.json
+
+  info "install nvidia-docker2"
+  yum install -y nvidia-docker2
+  if [[ -f ${NVIDIA_DOCKER_CONF} ]];then
+      cp -f /data/base_ev/docker-install/daemon.json /etc/docker/daemon.json
+      systemctl daemon-reload
+      systemctl restart docker
+  else
+      err "${NVIDIA_DOCKER_CONF} is not exits"
+  fi
+
+  info "load docker-images"
+  IMAGES1=/data/docker-image/centos_python_segment.tar
+  IMAGES2=/data/docker-image/k8s-device-plugin.tar
+  IMAGES3=/data/docker-image/pod-infrastructure.tar
+  
+  if [[ -f ${IMAGES1} ]];then
+      docker load -i ${IMAGES1}
+      docker load -i ${IMAGES2}
+      docker load -i ${IMAGES3}
+      docker images
+  else
+      err "${IMAGES1} is not exits"
+  fi
+
   ok "docker 安装成功"
 }
 function install_k8s() {
-  info "install k8s"
-  /bin/sh /data/k8s/k8s-install.sh
-  ok "k8s 安装成功"
-}
-function install_nfs() {
-  info "install nfs"
-  /bin/sh /data/base_ev/nfs-install/nfs-install.sh
-  ok "nfs 安装成功"
+  #1 etcd 
+  if [[ -d /data/k8s/kubernetes ]];then
+      info "安装 etcd...................."
+      yum install etcd -y
+      cp /data/k8s/conf/etcd/etcd.conf  /etc/etcd/
+      mkdir /data/etcd  -p
+      chown etcd:etcd /data/etcd/ -R
+      systemctl restart etcd
+      
+      #2 k8s server
+      info "copy k8s conf................"
+      mkdir -p /etc/kubernetes/
+      mkdir -p /data/kubelet
+      cp    /data/k8s/kubernetes/server/* /usr/bin
+      cp -r /data/k8s/kubernetes/config/* /etc/kubernetes/
+      cp    /data/k8s/kubernetes/system/* /lib/systemd/system/
+      
+      #3 conf
+      info "修改 k8s conf................"
+      #1) apiserver
+      sed -i "s#KUBE_API_ADDRESS.*#KUBE_API_ADDRESS=\"--advertise-address=${1} --bind-address=${1} --insecure-bind-address=127.0.0.1\" #" /etc/kubernetes/kube-apiserver
+      
+      #2) kublet
+      sed -i "s#NODE_ADDRESS.*#KUBE_API_ADDRESS=\"--advertise-address=${1} --bind-address=${1}\"#" /etc/kubernetes/kubelet
+      sed -i "s#NODE_HOSTNAME.*#NODE_HOSTNAME=\"--hostname-override=${1}\"#" /etc/kubernetes/kubelet
+      
+      #3) proxy
+      sed -i "s#NODE_HOSTNAME.*#NODE_HOSTNAME=\"--hostname-override=${1}\"#" /etc/kubernetes/proxy
+      
+      #5 enable
+      info "start  enable   k8s"
+      systemctl enable kube-apiserver.service
+      systemctl enable kube-controller-manager.service
+      systemctl enable kubelet
+      systemctl enable kube-proxy
+      systemctl enable kube-scheduler
+      
+      #6 start 
+      systemctl restart kube-apiserver.service
+      systemctl restart kube-controller-manager.service
+      systemctl restart kubelet
+      systemctl restart kube-proxy
+      systemctl restart kube-scheduler
+      
+      #7 GPU
+      sleep 5
+      info  "install plugin  namespace.............."
+      kubectl create -f /data/k8s/nvidia-device-plugin.yml
+      
+      #8 namespace
+      kubectl create namespace linkingmed
+      kubectl label node $1 env=local pref=high-priority processor=gpu
+      ok "k8s 安装成功"
+    else 
+      err "/data/k8s/kubernetes 不存在" 
+      exit 0  
+fi
 }
 
+function install_nfs() {
+  #1 install nfs
+  yum install nfs-utils -y
+  #2 conf
+  info "copy nfs conf"
+  NFS_CONF=/data/base_ev/nfs-install/exports
+  if [[ -f ${NFS_CONF} ]];then
+      cp -f  ${NFS_CONF} /etc/exports
+  else
+      err "${NFS_CONF} is not exists"
+  fi
+  #3 start 
+  info "start nfs"
+  systemctl restart nfs
+  systemctl enable nfs
+  #4 dir
+  info "mount nfs"
+  mkdir /data/alg/run -p
+  mkdir /alg/data -p
+  #5 mount 
+  mount ${1}:/data/alg/run/ /alg/data/
+  #6 fstab
+  info "nfs fstab"
+  if [ $(grep nfs /etc/fstab|wc -l ) -eq 0 ];then
+    sed -i "\$a ${1}:/data/alg/run  /alg/data            nfs     defaults        0 0" /etc/fstab
+  else
+    echo "nfs is already in /etc/fstab"
+  fi
+  df -Th
+  ok "nfs 安装成功"
+}

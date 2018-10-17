@@ -6,7 +6,9 @@ if [ $( grep OIS-GPU /etc/hosts|wc -l) -eq 2 ];then
    grep OIS-GPU /etc/hosts   
 else
    err "hosts 文件没有写主机名"
+   echo 'OIS-GPU' >/etc/hostname
    sed -i '1s/$/ OIS-GPU/' /etc/hosts
+   sed -i "\$a ${1}  OIS-GPU " /etc/hosts
    ok "hosts OK"
 fi
 

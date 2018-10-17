@@ -81,6 +81,7 @@ if [[ $(rpm -qa mysql-community-server|wc -l) -eq 1 ]];then
   ok 'mysql 已经安装'
 else
   err 'mysql 没有安装'
+  install_mysql
 fi
 
 

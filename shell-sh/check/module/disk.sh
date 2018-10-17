@@ -13,10 +13,8 @@ fi
 
 #2
 info "fstab Check"
-if [ $(grep ${DISK} ${FSTAB}|wc -l) -eq 1 -a $(grep nfs ${FSTAB}|wc -l) -eq 1 -a $(grep ${SWAP} ${FSTAB}|wc -l) -eq 1  ];then
+if [ $(grep ${DISK} ${FSTAB}|wc -l) -eq 1 ];then
   ok $(grep ${DISK} /etc/fstab)
-  ok $(grep nfs /etc/fstab)
-  ok $(grep ${SWAP} /etc/fstab)
 else
   err "fstab ERROR!!!"
 fi
