@@ -1,17 +1,6 @@
 #!/bin/sh
 
-#1 
-info  'Install oracle JDk'
-rpm -qa | grep openjdk
-[ $? -eq 0 ] && rpm -qa | grep openjdk | xargs rpm --nodeps -e
-if [ -x "$(command -v java)" ];then
-  ok 'java 已经安装'
-else
-  err 'java 没有安装'
-  install_jdk 
-fi
-
-#2 
+#1 (CPU)
 info  'Install 对比算法'
 DCMTK=/data/software/dcmtk-gcc-4.8.5/bin/dsr2html
 if [[ -d /data/anaconda3/ ]] || [[ -d /data/script/  ]] || [[ -f ${DCMTK} ]];then
@@ -28,8 +17,8 @@ else
   fi
 fi
 
-#3
-info 'python 依赖'
+#2(CPU)
+info ' install python 依赖'
 if [[ $(rpm -qa mesa-libGL mesa-libGL-devel|wc -l) -eq 2 ]];then
   ok 'python 依赖已经安装'
 else
@@ -38,8 +27,8 @@ else
   ok 'python 依赖 OK'
 fi
 
-#4
-info 'dicom 依赖'
+#3(CPU)
+info 'install dicom 依赖'
 DICOM_A=/usr/local/bin/libclib_jiio-1.2-b04-linux-x86-64.so
 DICOM_B=/usr/lib64/libpng15.so.15
 if [[ -f ${DICOM_A} ]];then
@@ -57,17 +46,8 @@ else
   ok  "${DICOM_B} OK!!"
 fi
 
-#5 
-info 'nginx'
-if [[ $(rpm -qa nginx |wc -l) -eq 1 ]];then
-  ok 'nginx 已经安装'
-else 
-  err 'nginx 没有安装'
-  install_nginx
-fi
-
-#6 
-info 'rabbitmq'
+#4 (CPU)
+info 'install  rabbitmq'
 if [[ $(rpm -qa rabbitmq-server|wc -l) -eq 1 ]];then
   ok 'rabbitmq 已经安装'
 else
@@ -75,29 +55,15 @@ else
   install_rabbitmq
 fi
 
-#7 
-info "mysql"
-if [[ $(rpm -qa mysql-community-server|wc -l) -eq 1 ]];then
-  ok 'mysql 已经安装'
+#7 (CPU)
+info "import mysql-CPU"
+MYSQL_DICOM=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'linkdicom'|wc -l)
+MYSQL_OIS=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'linkingois'|wc -l)
+MYSQL_MESSAGE=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'message'|wc -l)
+if [[ ${MYSQL_DICOM} -eq 1 && ${MYSQL_OIS} -eq 1 && ${MYSQL_MESSAGE} -eq 1 ]];then
+  ok 'mysql-CPU 已经导入'
 else
-  err 'mysql 没有安装'
-  install_mysql
+  err 'mysql-CPU 没有导入'
+  /bin/sh  /data/shell-sh/check/module/mysql-data-CPU.sh 
+  ok "mysql-CPU OK!!"
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -23,11 +23,9 @@ else
 fi
 
 #3 # 优化视觉
-info "优化视觉"
 if [ $(grep "PS1=" /root/.bash_profile|wc -l) -eq 1 ];then
-  ok "优化视觉"
+  echo  " "
 else
-  err "优化视觉"
   echo "PS1='\[\e[31;1m\]\u\[\e[33;1m\]@\[\e[32;1m\]\h:\[\e[36;1m\]\w\[\e[35;1m\]\$>\[\e[0m\]'" >>/root/.bash_profile
   echo alias ll=\'ls -alh --time-style=+\"[%Y-%m-%d %H:%M]\"\' >>/root/.bash_profile
   echo "alias cd..='cd ..'
@@ -37,5 +35,4 @@ else
   " >>/root/.bash_profile
   sleep 1
   source /root/.bash_profile
-  ok "优化视觉 OK"
 fi

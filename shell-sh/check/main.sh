@@ -1,37 +1,36 @@
 #!/bin/sh
-#0 source 函数
+#0 source 函数(all)
 source /data/shell-sh/check/lib/function.sh
-#1 source 自己的lib文件
+#1 source 自己的lib文件(all)
 source /data/shell-sh/check/lib/basic.sh
-#2 检查磁盘
+#2 检查磁盘(all)
 source /data/shell-sh/check/module/disk.sh
-#3 检查防火墙
+#3 检查防火墙(all)
 source /data/shell-sh/check/module/firewalld.sh
-#4 检查hosts
-source /data/shell-sh/check/module/hosts.sh
-#5 检查离线环境的rpm包及repo文件
+#4 检查离线环境的rpm包及repo文件(all)
 source /data/shell-sh/check/module/rpm-repo.sh
-#6 检查显卡驱动
+#5 检查hosts(GPU)
+source /data/shell-sh/check/module/hosts.sh
+#6 检查显卡驱动(GPU)
 source /data/shell-sh/check/module/nvidia-install.sh
 #7 检查各种软件包是否安装
+#(all)
+source /data/shell-sh/check/module/yum-install-all.sh
+#(CPU)
 source /data/shell-sh/check/module/yum-install-CPU.sh
-sleep 2
-#source module/install_gpu.sh
-source /data/shell-sh/check/module/install_gpu.sh 
-
+#(GPU)
+source /data/shell-sh/check/module/yum-install-GPU.sh
 #8 安装ois工程包
 sleep 2
+#(CPU)
 source /data/shell-sh/check/module/ois-install.sh
-#9 安装gouba alg
+#(GPU)
+source /data/shell-sh/check/module/linkone-install.sh
+#9 安装gouba alg(GPU)
 source /data/shell-sh/check/module/gouba-alg-install.sh
-#10 修改ip
+#10 修改ip(all)
 source /data/shell-sh/ip_change.sh
-#11 启动ois
+#11 启动ois(all)
 source /data/shell-sh/ois_start.sh
-#12 定时任务
+#12 定时任务(all)
 crontab /data/shell-sh/cron/crontest.cron
-
-
-
-
-

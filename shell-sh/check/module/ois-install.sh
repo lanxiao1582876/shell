@@ -1,6 +1,10 @@
 #!/bin/bash
 info "install ois"
-if [[ -d /data/ois ]];then
+JAR_OIS=/data/ois/site/backend/ois
+JAR_DICOM=/data/ois/site/backend/dicom
+JAR_MESSAGE=/data/ois/site/backend/message
+
+if [[ -d ${JAR_OIS} && -d ${JAR_DICOM} && -d ${JAR_MESSAGE} ]];then
     ok "ois 已经安装"
 else
     cd /data

@@ -45,18 +45,18 @@ function install_rabbitmq() {
 }
 
 function install_mysql() {
-  info "install mysql" 
-  /bin/sh /data/base_ev/mysql-install/mysql-install.sh
-  /bin/sh /data/init_db/mysql-data.sh
+  info "install mysql-5.7.22" 
+  /bin/sh /data/shell-sh/check/module/mysql-install.sh 
   ok "mysql 安装成功"
 }
 
 function install_docker() {
-  info "install docker"
+info "install docker-ce-18.03.1"
+
   yum   install  docker-ce -y
   DOCKER_CONF=/data/base_ev/docker-install/docker.service
   
-  info "copy docker conf"
+info "copy docker conf"
   mkdir -p /data/docker
   if [[ -f ${DOCKER_CONF} ]];then
       cp -f /data/base_ev/docker-install/docker.service  /usr/lib/systemd/system/docker.service
@@ -69,7 +69,7 @@ function install_docker() {
   fi
   NVIDIA_DOCKER_CONF=/data/base_ev/docker-install/daemon.json
 
-  info "install nvidia-docker2"
+info "install nvidia-docker2"
   yum install -y nvidia-docker2
   if [[ -f ${NVIDIA_DOCKER_CONF} ]];then
       cp -f /data/base_ev/docker-install/daemon.json /etc/docker/daemon.json
@@ -79,32 +79,36 @@ function install_docker() {
       err "${NVIDIA_DOCKER_CONF} is not exits"
   fi
 
-  info "load docker-images"
+info "load docker-images"
   IMAGES1=/data/docker-image/centos_python_segment.tar
   IMAGES2=/data/docker-image/k8s-device-plugin.tar
   IMAGES3=/data/docker-image/pod-infrastructure.tar
   
   if [[ -f ${IMAGES1} ]];then
       docker load -i ${IMAGES1}
+      ok "load ${IMAGES1} OK"
+
       docker load -i ${IMAGES2}
+      ok "load ${IMAGES2} OK"
+
       docker load -i ${IMAGES3}
+      ok "load ${IMAGES3} OK"
       docker images
   else
       err "${IMAGES1} is not exits"
   fi
-
   ok "docker 安装成功"
 }
 function install_k8s() {
   #1 etcd 
   if [[ -d /data/k8s/kubernetes ]];then
-      info "安装 etcd...................."
+      info "安装 etcd"
       yum install etcd -y
       cp /data/k8s/conf/etcd/etcd.conf  /etc/etcd/
       mkdir /data/etcd  -p
       chown etcd:etcd /data/etcd/ -R
       systemctl restart etcd
-      
+      ok 'install etcd'
       #2 k8s server
       info "copy k8s conf................"
       mkdir -p /etc/kubernetes/
