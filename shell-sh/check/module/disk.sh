@@ -12,9 +12,9 @@ else
 fi
 
 #2
-info "fstab Check"
-if [ $(grep ${DISK} ${FSTAB}|wc -l) -eq 1 ];then
-  ok $(grep ${DISK} /etc/fstab)
-else
-  err "fstab ERROR! 如果只有一个磁盘，忽略此条信息"
-fi
+#info "fstab Check"
+#if [ $(grep ${DISK} ${FSTAB}|wc -l) -eq 1 ];then
+#  ok $(grep ${DISK} /etc/fstab)
+#else
+#  err "fstab ERROR! 如果只有一个磁盘，忽略此条信息"
+#fi

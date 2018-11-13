@@ -13,5 +13,5 @@ else
     fi
 fi   
 info "copy ois service"
-cp /data/shell-sh/system/* /lib/systemd/system/
+cp /data/shell-sh/system/link-linkone.service /lib/systemd/system/
 systemctl daemon-reload

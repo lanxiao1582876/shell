@@ -13,6 +13,6 @@ EOF
 DATABASE=/data/init_db
 #linkone
 echo "load linkone"
-mysql -uroot -p'Linkingmed2018@' linkone     <${DATABASE}/linkone/linkone_2.0.4.1_alg_1.0.3.9.sql
+mysql -uroot -p'Linkingmed2018@' linkone     <${DATABASE}/linkone/linkone.sql
 
 mysql -uroot -p'Linkingmed2018@' -e "show databases;"

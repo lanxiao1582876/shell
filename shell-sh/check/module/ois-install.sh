@@ -14,6 +14,10 @@ else
         err "ois.zip is not exists"
     fi
 fi   
-info "copy ois service"
-cp /data/shell-sh/system/* /lib/systemd/system/
+info "copy ois service"   
+cp /data/shell-sh/system/link-dicom-api.service         /lib/systemd/system/
+cp /data/shell-sh/system/link-dicom-archive.service     /lib/systemd/system/
+cp /data/shell-sh/system/link-dicom-dcmsender.service   /lib/systemd/system/
+cp /data/shell-sh/system/link-ois2.service              /lib/systemd/system/
+cp /data/shell-sh/system/link-message.service           /lib/systemd/system/
 systemctl daemon-reload

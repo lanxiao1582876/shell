@@ -12,7 +12,7 @@ if [[ ${MYSQL_DICOM} -eq 1 ]];then
 else
     mysql -uroot -p'Linkingmed2018@' -e "create database  linkdicom;"
     echo "load mysql-dicom"
-    mysql -uroot -p'Linkingmed2018@' linkdicom   <${DATABASE}/dicom/dicom-2.0.11.4-init.sql
+    mysql -uroot -p'Linkingmed2018@' linkdicom   <${DATABASE}/dicom/dicom.sql
 fi
 #load ois
 if [[ ${MYSQL_OIS} -eq 1 ]];then
@@ -20,7 +20,7 @@ if [[ ${MYSQL_OIS} -eq 1 ]];then
 else
     mysql -uroot -p'Linkingmed2018@' -e "create database  linkingois;"
     echo "laod mysql-ois"
-    mysql -uroot -p'Linkingmed2018@' linkingois  <${DATABASE}/ois/ois-2.1.0-20181009.sql
+    mysql -uroot -p'Linkingmed2018@' linkingois  <${DATABASE}/ois/ois.sql
 fi
 #load message
 if [[ ${MYSQL_DICOM} -eq 1 && ${MYSQL_OIS} -eq 1 && ${MYSQL_MESSAGE} -eq 1 ]];then
@@ -28,7 +28,7 @@ if [[ ${MYSQL_DICOM} -eq 1 && ${MYSQL_OIS} -eq 1 && ${MYSQL_MESSAGE} -eq 1 ]];th
 else
     mysql -uroot -p'Linkingmed2018@' -e "create database  message;"
     echo "load  mysql-message"
-    mysql -uroot -p'Linkingmed2018@' message     <${DATABASE}/message/message_1.0.1_20180712.sql
+    mysql -uroot -p'Linkingmed2018@' message     <${DATABASE}/message/message.sql
 fi
 #mysql -uroot -p'Linkingmed2018@' <<EOF
 #create database  linkdicom;
