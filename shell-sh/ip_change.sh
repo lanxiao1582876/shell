@@ -7,3 +7,6 @@ source  /data/shell-sh/ip_change/ip_change_dicom.sh
 source  /data/shell-sh/ip_change/ip_change_nginx.sh
 source  /data/shell-sh/ip_change/ip_change_linkone.sh
 source  /data/shell-sh/ip_change/ip_change_viewer.sh
+source  /data/shell-sh/ip_change/ip_change_jasperserver.sh
+
+

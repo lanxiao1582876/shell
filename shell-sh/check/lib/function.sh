@@ -6,6 +6,15 @@ function install_offlinerepo() {
   yum clean all
   ok 'offline.repo 安装成功'
 }
+function install_fonts() {
+  info "install fonts"
+  yum install fontconfig -y
+  unzip -qo /data/base_ev/fonts-install/fonts.zip -d /usr/share/
+  cd /usr/share/
+  fc-cache -fv
+  ok '字体 安装成功'
+}
+
 function install_jdk() {
   info "install java_env(jdk_8u131)"
   cp /data/base_ev/jdk-install/jdk_8u131_201805031200_lanxiao.tar.gz /usr/local

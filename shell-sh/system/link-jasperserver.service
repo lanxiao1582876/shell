@@ -1,0 +1,16 @@
+[Unit]
+Description=link-ois2.service
+
+[Service]
+WorkingDirectory=/data/ois/site/backend/jasperserver
+ExecStart=/usr/local/java/bin/java -jar linking-report.jar
+#Type=forking
+Restart=on-failure
+KillMode=control-group
+
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

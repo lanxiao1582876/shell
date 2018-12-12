@@ -30,3 +30,4 @@ cd ${ALG_DIR}/up_body
 zip -rP linkone@2018 up_body.zip *
 cp up_body.zip ${ALG_DIR_PROD}/up_body
  
+cp -rf /data/alg/alg_bak/lkm_contour/* /data/alg/prog/lkm_contour/

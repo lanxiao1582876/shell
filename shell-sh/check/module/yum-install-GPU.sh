@@ -20,20 +20,20 @@ else
 fi
 
 #2 
-info  "install k8s"
-if [[ $(ls -l /lib/systemd/system/kube*|wc -l) -eq 5 ]];then
-  ok 'k8s 已经安装'
-else
-  err 'k8s 没有安装'
-  install_k8s ${1}
-fi
+#info  "install k8s"
+#if [[ $(ls -l /lib/systemd/system/kube*|wc -l) -eq 5 ]];then
+#  ok 'k8s 已经安装'
+#else
+#  err 'k8s 没有安装'
+#  install_k8s ${1}
+#fi
 
 #3
-info "install nfs"
-if [[ $(rpm -qa nfs-utils|wc -l) -eq 1 ]];then
-  ok "nfs 已经安装"
-else
-  err "nfs 没有安装"
-  install_nfs ${1}
-fi
+#info "install nfs"
+#if [[ $(rpm -qa nfs-utils|wc -l) -eq 1 ]];then
+#  ok "nfs 已经安装"
+#else
+#  err "nfs 没有安装"
+#  install_nfs ${1}
+#fi
 

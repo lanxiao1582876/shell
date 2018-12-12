@@ -4,23 +4,23 @@ err()  { echo -e "\033[41;37m[ERROR]\033[0m $(date +"[%F %T]") $@" >&2; }
 
 #重启linone所有服务脚本
 
-#1 重启etcd
-systemctl restart etcd 
-if [[ $? -eq 0  ]];then
-  ok etcd  
-else
-  err etcd
-fi
-#等待5s
-ok sleep 5
-
-#2 重启k8 api
-systemctl restart kube-apiserver 
-if [[ $? -eq 0  ]];then
-  ok kube-apiserver
-else
-  err kube-apiserver
-fi
+##1 重启etcd
+#systemctl restart etcd 
+#if [[ $? -eq 0  ]];then
+#  ok etcd  
+#else
+#  err etcd
+#fi
+##等待5s
+#ok sleep 5
+#
+##2 重启k8 api
+#systemctl restart kube-apiserver 
+#if [[ $? -eq 0  ]];then
+#  ok kube-apiserver
+#else
+#  err kube-apiserver
+#fi
 
 #3 重启linkone
 #kill linkone

@@ -5,6 +5,8 @@
 MYSQL_DICOM=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'linkdicom'|wc -l)
 MYSQL_OIS=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'linkingois'|wc -l)
 MYSQL_MESSAGE=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'message'|wc -l)
+MYSQL_JASPER=$(mysql -uroot -pLinkingmed2018@ -e "show databases;" | grep 'jasperserver'|wc -l)
+
 DATABASE=/data/init_db
 #load dicom
 if [[ ${MYSQL_DICOM} -eq 1 ]];then
@@ -23,13 +25,24 @@ else
     mysql -uroot -p'Linkingmed2018@' linkingois  <${DATABASE}/ois/ois.sql
 fi
 #load message
-if [[ ${MYSQL_DICOM} -eq 1 && ${MYSQL_OIS} -eq 1 && ${MYSQL_MESSAGE} -eq 1 ]];then
+if [[  ${MYSQL_MESSAGE} -eq 1 ]];then
     echo "mysql-message is exists"
 else
     mysql -uroot -p'Linkingmed2018@' -e "create database  message;"
     echo "load  mysql-message"
     mysql -uroot -p'Linkingmed2018@' message     <${DATABASE}/message/message.sql
 fi
+
+#load jasperserver
+if [[  ${MYSQL_JASPER} -eq 1 ]];then
+    echo "mysql-jasperserver is exists"
+else
+    mysql -uroot -p'Linkingmed2018@' -e "create database  jasperserver;"
+    echo "load  mysql-jasperserver"
+    mysql -uroot -p'Linkingmed2018@' jasperserver     <${DATABASE}/jasperserver/jasperserver.sql
+fi
+
+
 #mysql -uroot -p'Linkingmed2018@' <<EOF
 #create database  linkdicom;
 #grant all on linkdicom.* to  'linkdicom'@'%' identified by  'Linkdicom2018@';

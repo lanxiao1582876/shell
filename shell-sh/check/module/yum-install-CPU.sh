@@ -1,5 +1,15 @@
 #!/bin/sh
 
+#0 (CPU)
+info "Install 字体"
+FONTS=/usr/share/fonts
+if [[  $(ls /usr/share/fonts/|wc -l) -eq 39 ]];then
+  ok "字体已经安装"
+else
+  err "字体没有安装"
+  install_fonts
+  ok "字体安装ok"
+fi
 #1 (CPU)
 info  'Install 对比算法'
 DCMTK=/data/software/dcmtk-gcc-4.8.5/bin/dsr2html

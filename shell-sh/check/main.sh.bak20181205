@@ -20,7 +20,7 @@ read -p "#?" CHOOSE
 case ${CHOOSE} in
     1)
     #5 检查hosts(GPU)
-    #source /data/shell-sh/check/module/hosts.sh
+    source /data/shell-sh/check/module/hosts.sh
     #6 检查显卡驱动(GPU)
     source /data/shell-sh/check/module/nvidia-install.sh
     #7 检查各种软件包是否安装
@@ -71,7 +71,7 @@ case ${CHOOSE} in
            ;;
            2)
                #1 检查hosts(GPU)
-               #source /data/shell-sh/check/module/hosts.sh
+               source /data/shell-sh/check/module/hosts.sh
                #2 检查显卡驱动(GPU)
                source /data/shell-sh/check/module/nvidia-install.sh
                #3 检查各种软件包是否安装

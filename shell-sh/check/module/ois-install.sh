@@ -20,4 +20,5 @@ cp /data/shell-sh/system/link-dicom-archive.service     /lib/systemd/system/
 cp /data/shell-sh/system/link-dicom-dcmsender.service   /lib/systemd/system/
 cp /data/shell-sh/system/link-ois2.service              /lib/systemd/system/
 cp /data/shell-sh/system/link-message.service           /lib/systemd/system/
+cp /data/shell-sh/system/link-jasperserver.service      /lib/systemd/system/
 systemctl daemon-reload

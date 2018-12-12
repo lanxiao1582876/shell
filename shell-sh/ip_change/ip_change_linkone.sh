@@ -34,6 +34,8 @@ if [ -f ${LINKONE_CONF} ];then
   sed -i "s#storage.urlBase.*#storage.urlBase=http://${1}:9092#" ${LINKONE_CONF}
   #8)
   sed -i "s#cluster.alg.notifyUrl=.*#cluster.alg.notifyUrl=http://${1}:57000/task/events/add#" ${LINKONE_CONF}
+  #9)docker
+  sed -i "s#cluster.docker.url=.*#cluster.docker.url=http://${1}:2375#" ${LINKONE_CONF}
 
   sed -i 's///' ${LINKONE_CONF}
   ok "LINKONE_CONF"

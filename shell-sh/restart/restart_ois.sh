@@ -47,6 +47,14 @@ if [[ $? -eq 0  ]];then
 else
   err link-dicom-dcmsender.service
 fi
+#6  重启jasperserver
+systemctl restart link-jasperserver.service
+if [[ $? -eq 0  ]];then
+  ok link-jasperserver.service
+else
+  err link-jasperserver.service
+fi
+
 
 # 开机启动
 systemctl enable link-ois2.service
@@ -54,4 +62,5 @@ systemctl enable link-dicom-api.service
 systemctl enable link-dicom-archive.service
 systemctl enable link-message.service
 systemctl enable link-dicom-dcmsender.service 
+systemctl enable link-jasperserver.service
 
