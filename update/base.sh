@@ -13,7 +13,7 @@ DICOM_SQL_DIR=/data/update/sql/ois/ois.sql
 MYSQLDUMP=$(mysqldump -uroot -p'Linkingmed2018@')
 
 ALG_BAK=/data/bak/alg
-ALG_DRI=/data/alg/prog
+ALG_DIR=/data/alg/prog
 ALG_ZIP=/data/update/gouba.alg.zip
 
 SHELL_BAK=/data/bak/shell-sh/
@@ -23,7 +23,7 @@ SHELL_ZIP=/data/update/shell-sh.zip
 IMAGE_ZIP=/data/update/alg.image.zip
 
 NGINX_BAK=/data/bak/nginx
-NGINX_DRI=/etc/nginx/conf.d/
+NGINX_DIR=/etc/nginx/conf.d/
 NGINX_CONF_RAIK=/data/update/raic.conf
 NGINX_CONF_VIEWER=/data/update/viewer-new.conf
 

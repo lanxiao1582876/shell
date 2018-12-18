@@ -3,7 +3,7 @@ DATE=$(date +"%Y%m%d%H%M%S")
 SQL_BAK=/data/bak/mysql_bak
 OIS_SQL_DIR=/data/update/sql/ois/ois.sql 
 DICOM_SQL_DIR=/data/update/sql/dicom/dicom.sql 
-
+JASPER_SQL_DIR=/data/update/sql/jasperserver/jasperserver.sql
 MYSQLDUMP=$(/usr/bin/mysqldump -uroot -p'Linkingmed2018@')
 
 #1 bak
@@ -26,7 +26,24 @@ else
     info '不升级ois数据库'
 fi
 
-#3 dicom
+#3 jasperserver
+if [[ -f ${JASPER_SQL_DIR} ]];then
+    info "升级jasperserver数据库"
+    #1 备份
+    /usr/bin/mysqldump -uroot -p'Linkingmed2018@' jasperserver >${SQL_BAK}/jasperserver_bak_${DATE}.sql
+    ok 'jasperserver 备份成功'
+    #2 升级 
+    /usr/bin/mysql -uroot -p'Linkingmed2018@'  jasperserver <${JASPER_SQL_DIR}
+    if [[ $? -eq 0 ]];then
+        ok  'jasperserver 数据库升级成功'
+    else
+        err 'jasperserver 数据库升级失败'
+    fi
+else
+    info '不升级jasperserver数据库'
+fi
+
+#4 dicom
 if [[ -f ${DICOM_SQL_DIR} ]];then
     info "升级dicom数据库"
     #1 备份
