@@ -4,8 +4,9 @@ source /data/shell-sh/check/lib/basic.sh
 #1 ois-fronend
 OIS_FRONT_CONF=/data/ois/site/frontend/ois/dist/LM_IP.js
 if [ -f ${OIS_FRONT_CONF} ];then
-  sed -i "s#viewer:.*#viewer: 'http://${1}/\#/main/reader/2d/',#g" ${OIS_FRONT_CONF}
-  sed -i "s#dicomMessage:.*#dicomMessage: 'http://${1}/',#g" ${OIS_FRONT_CONF}
+  sed -i "s#viewer:.*#viewer: 'http://${2}/\#/main/reader/2d/',#g" ${OIS_FRONT_CONF}
+  sed -i "s#dicomMessage:.*#dicomMessage: 'http://${2}/',#g" ${OIS_FRONT_CONF}
+  sed -i "s#newViewer:.*#newViewer: 'http://${3}/#/main/contour/',#g" ${OIS_FRONT_CONF}
   ok "OIS_FRONT_CONF"
 else
   err "${OIS_FRONT_CONF} is not exist"
@@ -67,5 +68,9 @@ else
   err "${OIS_BACKEND_CONF} is not exist"
 fi
 
-
-
+#8 nginx
+cd /etc/nginx/conf.d
+cp -f viewer-new.conf.bak viewer-new.conf
+cp -f raic.conf.bak  raic.conf
+nginx -s reload
+echo "远端关闭智能勾画"

@@ -41,6 +41,9 @@ function init() {
   ${RABBITADMIN} declare binding source="lm.dicom.dcm.send.exchange" destination_type="queue" destination="lm.dicom.dcm.send.queue" routing_key="lm.dicom.dcm.send.key"
   ${RABBITADMIN} declare queue name="lm.archive.status.ois.queue" durable=true
   ${RABBITADMIN} declare binding source="lm.archive.exchange" destination_type="queue" destination="lm.archive.status.ois.queue" routing_key="lm.archive.status.ois.key"
+  ${RABBITADMIN}  declare queue name="lm.dicom.dcm.send.notify.queue" durable=true
+  ${RABBITADMIN}  declare exchange name="lm.dicom.dcm.send.notify.exchange" type=topic
+  ${RABBITADMIN}  declare binding source="lm.dicom.dcm.send.notify.exchange" destination_type="queue" destination="lm.dicom.dcm.send.notify.queue" routing_key="lm.dicom.dcm.send.notify.key"
   ${RABBITADMIN} list users
   ${RABBITADMIN} list permissions
   ${RABBITADMIN} list exchanges
