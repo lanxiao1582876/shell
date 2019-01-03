@@ -6,6 +6,8 @@ source /data/shell-sh/check/lib/basic.sh
 source /data/update/base.sh
 
 #2 升级sql
+#tmp
+mysql -uroot -p'Linkingmed2018@' -e "create database  jasperserver;"
 source /data/update/model/update_sql_CPU.sh
 #3 升级工程包
 source /data/update/model/ois.sh

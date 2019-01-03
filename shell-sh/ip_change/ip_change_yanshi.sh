@@ -22,12 +22,12 @@
 #kubectl label node $1 env=local pref=high-priority processor=gpu
 
 #2 nfs
-#umount -f /alg/data/
-#systemctl restart nfs
-#sleep 3
-#mount ${1}:/data/alg/run/ /alg/data/
-#if [ $(grep ${1} /etc/fstab|wc -l ) -eq 0 ];then
-#  sed -i "s#.*/alg/data.*#${1}:/data/alg/run  /alg/data            nfs     defaults        0 0#" /etc/fstab
-#else
-#  echo "nfs is already in /etc/fstab"
-#fi
+umount -f /alg/data/
+systemctl restart nfs
+sleep 3
+mount ${1}:/data/alg/run/ /alg/data/
+if [ $(grep ${1} /etc/fstab|wc -l ) -eq 0 ];then
+  sed -i "s#.*/alg/data.*#${1}:/data/alg/run  /alg/data            nfs     defaults        0 0#" /etc/fstab
+else
+  echo "nfs is already in /etc/fstab"
+fi
